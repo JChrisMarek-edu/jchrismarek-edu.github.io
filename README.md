@@ -6,7 +6,7 @@ These are a set of algorithms that I wrote in conjunction with taking CSC3430 at
 ## Greedy
 
 ## Divide And Conquer
-A divide and conquer algorithm to multiply two $n x n$ matrices. With the requirement that the value $n$ be a multiple of 2.
+A divide and conquer algorithm to multiply two n x n matrices. With the requirement that the value n be a multiple of 2. \
 [Matrix Multiplication Algorithm](https://github.com/JChrisMarek-edu/MatrixMultiplication)
 
 ## Dynamic Programming
