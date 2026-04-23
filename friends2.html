@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Friends Viewer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<body>
+    <h1>Friends</h1>
+    <div class="controls">
+        <button id="loadAllBtn" class="btn btn-default">Load All Friends</button>
+        <form>
+            <div class="form-group">
+                <label for="friendId">Find friend by ID:</label>
+                <input type="text" class="form-control" id="friendId" name="friendId">
+            </div>
+        </form>
+        <button id="findBtn" class="btn btn-default">Find</button>
+    </div>
+    <table id="friendsTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
+            const API_URL = "https://friends-node-01-47e26a48b0b0.herokuapp.com/friends";
+            const loadAllBtn = document.getElementById("loadAllBtn");
+            const findBtn = document.getElementById("findBtn");
+            const friendIdInput = document.getElementById("friendId");
+            const tableBody = document.querySelector("#friendsTable tbody");
+            const messageDiv = document.getElementById("message");
+
+            function clearTable() {
+                tableBody.innerHTML = "";
+            }
+
+            function showMessage(message) {
+                messageDiv.textContent = message;
+            }
+            function addFriendRow(friend) {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `<td>${friend.firstName} ${friend.lastName}</td>`;
+                tableBody.appendChild(row);
+            }
+            async function loadAllFriends() {
+                clearTable()
+                showMessage("Loading all friends...");
+
+                try {
+                    const response = await fetch(API_URL);
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error ${response.status}`);
+                    }
+
+                    const friends = await response.json();
+
+                    if (!Array.isArray(friends) || friends.length === 0) {
+                        showMessage("No friends found.");
+                        return;
+                    }
+
+                    friends.forEach(addFriendRow);
+                    showMessage(`Loaded ${friends.length} friend(s).`);
+                } catch (error) {
+                    showMessage(`Error loading friends: ${error.message}`);
+                }
+            }
+            loadAllBtn.addEventListener("click", loadAllFriends);
+
+            async function findFriend() {
+                const id = friendIdInput.value.trim();
+
+                if (id === "") {
+                    loadAllFriends();
+                    return;
+                }
+
+                clearTable();
+                showMessage(`Looking for friend with ID ${id}...`);
+
+                try {
+                    const response = await fetch(`${API_URL}/${id}`);
+
+                    if (response.status === 404) {
+                        showMessage(`Friend with ID ${id} was not found.`);
+                        return;
+                    }
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error ${response.status}`);
+                    }
+
+                    const friend = await response.json();
+                    addFriendRow(friend);
+                    showMessage(`Found friend with ID ${id}.`);
+                } catch (error) {
+                    showMessage(`Error finding friend: ${error.message}`);
+                }
+            }
+            findBtn.addEventListener("click", findFriend);
+        </script>
+</body>
+
+</html>
