@@ -226,7 +226,7 @@
     let board = [];
     let firstSelection = null;
     let score = 0;
-    let goal = 5000;
+    let goal = 3000;
     let moves = 20;
 
 
@@ -433,9 +433,9 @@
     function restart() {
       createBoard();
       moves = 20;
+      goal = 3000;
       resolveBoard();
       score = 0;
-      goal = 5000;
       updateUI();
       renderBoard();
     }
