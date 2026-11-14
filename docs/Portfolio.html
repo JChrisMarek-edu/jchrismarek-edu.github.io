@@ -88,18 +88,69 @@
       --bs-btn-active-bg: #5a23c8;
       --bs-btn-active-border-color: #5a23c8
     }
+      .bd-mode-toggle {
+        z-index: 1500
+      }
 
-    .bd-mode-toggle {
-      z-index: 1500
+      .bd-mode-toggle .bi {
+        width: 1em;
+        height: 1em
+      }
+      
+      .bd-mode-toggle .dropdown-menu .active .bi {
+        display: block !important
+      }
+
+    /* Portfolio card layout */
+    .portfolio-link {
+      display: block;
+      height: 100%;
+      color: inherit;
+      text-decoration: none;
     }
 
-    .bd-mode-toggle .bi {
-      width: 1em;
-      height: 1em
+    /* Card appearance */
+    .portfolio-card {
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.25s ease,
+                  box-shadow 0.25s ease,
+                  border-color 0.25s ease;
+      background-color: #252525;
     }
 
-    .bd-mode-toggle .dropdown-menu .active .bi {
-      display: block !important
+    /* Consistent image sizing */
+    .portfolio-card .card-img-top {
+      width: 100%;
+      height: 220px;
+      object-fit: contain;
+      background-color: #1a1a1a;
+      padding: 10px;
+    }
+
+    /* Card text */
+    .portfolio-card .card-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .portfolio-card .card-text {
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    /* Hover effect */
+    .portfolio-card:hover {
+      transform: translateY(-6px);
+      border-color: #712cf9;
+      box-shadow: 0 8px 25px rgba(113, 44, 249, 0.3);
+    }
+
+    /* Keyboard accessibility */
+    .portfolio-link:focus-visible {
+      outline: 3px solid #712cf9;
+      outline-offset: 4px;
+      border-radius: 12px;
     }
   </style>
 </head>
